@@ -20,8 +20,8 @@ void i2c_init() {
 
 void i2c_start()
 {
-    TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
-    while (!(TWCR & (1 << TWINT)));
+    TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
+    while (!(TWCR & (1<<TWINT)));
 }
 
 void i2c_stop()
@@ -41,13 +41,13 @@ uint8_t i2c_send_address(uint8_t address, uint8_t rw_type)
             address = address << 1;
             break;
     }
-
-    TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
-    while (!(TWCR & (1 << TWINT)));
+    PORTA = 0xFF;
+    //TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
+    //while (!(TWCR & (1 << TWINT)));
 
     TWDR = address;
     TWCR = (1 << TWINT) | (1 << TWEN);
-    while (!(TWCR & (1 << TWINT)));
+    //while (!(TWCR & (1 << TWINT)));
 
     if ((TWSR & 0xF8) != TW_MT_SLA_ACK)
     {

@@ -17,7 +17,8 @@ void setup(void)
 {
     //params_value.all = 0;
     
-    
+    DDRA = 0xFF;
+    PORTA = 0x00;
     uart_init(9600);
     i2c_init();
     ssd1306_init();

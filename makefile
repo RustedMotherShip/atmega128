@@ -9,7 +9,7 @@ VPATH = libs
 SRCS = $(wildcard *.c) $(wildcard libs/*.c)
 OBJS = $(SRCS:.c=.o)
 
-PROGRAMMER = stk500
+PROGRAMMER = stk500v2
 PORT = /dev/ttyUSB0
 BAUD = 115200
 
