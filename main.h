@@ -12,7 +12,6 @@
 #include "libs/menu_lib.h"
 #include "libs/joystick_lib.h"
 
-#define I2C_DISPLAY_ADDR 0x3C
-#define I2C_GY_302_ADDR 0x68
+uint8_t irq_joystick_flag = 0;
 
 #endif

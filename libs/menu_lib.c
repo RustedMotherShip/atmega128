@@ -19,6 +19,7 @@ struct params_
 			uint8_t current_second:4;
 			uint8_t current_sens;
 			uint8_t current_vers;
+			uint8_t current_menu_pos:2;
 		};
 	};
 	
@@ -26,8 +27,33 @@ struct params_
 
 params_t params_value;
 
-
-
+void menu_up(void)
+{
+	params_value.current_menu_pos--;
+	if(params_value.current_menu_pos == 3)
+		params_value.current_menu_pos = 2;
+}
+void menu_down(void)
+{
+	params_value.current_menu_pos++;
+	if(params_value.current_menu_pos == 3)
+		params_value.current_menu_pos = 0;
+}
+void menu_ok(void)
+{
+	switch(params_value.current_menu_pos)
+	{
+		case 0:
+			menu_set_paragraph(color);
+		break;
+		case 1:
+			menu_set_paragraph(segment);
+		break;	
+		case 2:
+			menu_set_paragraph(settings);
+		break;
+	}	
+}
 void params_default_conf(void)
 {
 	params_value.all = 0;
@@ -41,6 +67,9 @@ void params_default_conf(void)
 
     params_value.current_sens = 10;
     params_value.current_vers = 0xA1;
+
+    params_value.current_menu_pos = 0;
+    params_value.paragraph_item = menu;
 }
 
 void menu_border(void)
@@ -96,7 +125,6 @@ void menu_border_item(uint8_t number_of_letters)
 	ssd1306_buffer_write(104,17,ttf_line_down);
 	ssd1306_buffer_write(112,17,ttf_line_down);
 	ssd1306_buffer_write(120,17,ttf_line_down);
-
 	
 }
 
@@ -204,10 +232,55 @@ void menu_set_item_menu(uint8_t item)
 	}
 
 }
-// void menu_switch_paragraph(uint8_t paragraph)
-// {
-	
-// }
+
+void menu_switch_paragraph(void)
+{
+	ssd1306_buffer_clean();
+				menu_border();
+				menu_border_paragraph(4);
+
+				ssd1306_buffer_write(10,12,ttf_rus_8);
+		    	ssd1306_buffer_write(18,12,ttf_rus_3);
+		    	ssd1306_buffer_write(26,12,ttf_rus_9);
+		    	ssd1306_buffer_write(34,12,ttf_rus_20);
+
+		    	ssd1306_buffer_write(48,4,ttf_rus_1);
+		    	ssd1306_buffer_write(56,4,ttf_rus_2);
+		    	ssd1306_buffer_write(64,4,ttf_rus_3);
+		    	ssd1306_buffer_write(72,4,ttf_rus_4);
+		    	ssd1306_buffer_write(106,4,ttf_void);
+
+		    	ssd1306_buffer_write(48,12,ttf_rus_6);
+		    	ssd1306_buffer_write(56,12,ttf_rus_3);
+		    	ssd1306_buffer_write(64,12,ttf_rus_7);
+		    	ssd1306_buffer_write(72,12,ttf_rus_8);
+		    	ssd1306_buffer_write(80,12,ttf_rus_3);
+		    	ssd1306_buffer_write(88,12,ttf_rus_9);
+		    	ssd1306_buffer_write(96,12,ttf_rus_4);
+		    	ssd1306_buffer_write(106,12,ttf_void);
+
+		    	ssd1306_buffer_write(48,20,ttf_rus_10);
+		    	ssd1306_buffer_write(56,20,ttf_rus_11);
+		    	ssd1306_buffer_write(64,20,ttf_rus_1);
+		    	ssd1306_buffer_write(72,20,ttf_rus_12);
+		    	ssd1306_buffer_write(80,20,ttf_rus_12);
+		    	ssd1306_buffer_write(106,20,ttf_void);
+
+		    	
+	switch(params_value.current_menu_pos)
+	{
+		case 0:
+			ssd1306_buffer_write(114,4,ttf_line_left);
+		break;
+		case 1:
+			ssd1306_buffer_write(114,12,ttf_line_left);	
+		break;
+		case 2:
+			ssd1306_buffer_write(114,20,ttf_line_left);	
+		break;
+	}
+	ssd1306_send_buffer();
+}
 void menu_set_paragraph(uint8_t paragraph)
 {
 	switch(paragraph)
