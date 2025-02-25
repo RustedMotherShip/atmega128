@@ -8,6 +8,9 @@
 #include "libs/uart_lib.h"
 #include "libs/i2c_lib.h"
 #include "libs/ssd1306_lib.h"
+#include "libs/adc_lib.h"
+#include "libs/menu_lib.h"
+#include "libs/joystick_lib.h"
 
 #define I2C_DISPLAY_ADDR 0x3C
 #define I2C_GY_302_ADDR 0x68

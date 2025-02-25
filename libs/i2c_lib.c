@@ -1,26 +1,19 @@
 #include "i2c_lib.h"
 
-#include <util/twi.h>
+void i2c_init(void) {
+    //DDRD = 0xFF;
+    //PORTD = 0xFF;
 
-#define I2C_FREQ 100000L // TWI frequency in Hz (100 kHz)
-
-void i2c_init() {
     TWSR=0x00; //set presca1er bits to zero
-    TWBR=0x46; //SCL frequency is 50K for 16Mhz
-    TWCR=0x04; //enab1e TWI module
-    // // Set TWI (Two-Wire Interface) bit rate
-    // TWBR = ((F_CPU / I2C_FREQ) - 16) / 2;
-
-    // // Enable TWI and set TWINT to 1 for no ongoing operation
-    // TWCR = (1 << TWEN) | (1 << TWINT);
-
-    // DDRD |= (1 << 0) | (1 << 1); // Set SDA and SCL as outputs
-    // PORTD |= (1 << 0) | (1 << 1); // Enable pull-ups for SDA and SCL
+    // Set TWI (I2C) bit rate to 100 kbps
+    TWBR = ((F_CPU / 100000) - 16) / 2;
+    // Enable TWI (I2C) module
+    TWCR |= (1 << TWEN);
 }
 
 void i2c_start()
 {
-    TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
+    TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN) | (1<<TWIE);
     while (!(TWCR & (1<<TWINT)));
 }
 
@@ -31,7 +24,6 @@ void i2c_stop()
 
 uint8_t i2c_send_address(uint8_t address, uint8_t rw_type)
 {
-    i2c_start();
     switch (rw_type)
     {
         case 1:
@@ -41,13 +33,11 @@ uint8_t i2c_send_address(uint8_t address, uint8_t rw_type)
             address = address << 1;
             break;
     }
-    PORTA = 0xFF;
-    //TWCR = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
-    //while (!(TWCR & (1 << TWINT)));
 
+    i2c_start();
     TWDR = address;
-    TWCR = (1 << TWINT) | (1 << TWEN);
-    //while (!(TWCR & (1 << TWINT)));
+    TWCR = (1 << TWINT) | (1 << TWEN) | (1<<TWIE);
+    while (!(TWCR & (1 << TWINT)));
 
     if ((TWSR & 0xF8) != TW_MT_SLA_ACK)
     {

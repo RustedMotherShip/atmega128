@@ -1,21 +1,8 @@
 #include "main.h"
 
-// void params_default_conf(void)
-// {
-//     params_value.current_red = 255;
-//     params_value.current_green = 255;
-//     params_value.current_blue = 255;
-
-//     params_value.current_first = 0;
-//     params_value.current_second = 15;
-
-//     params_value.current_sens = 10;
-//     params_value.current_vers = 0xA1;
-// }
-
 void setup(void)
 {
-    //params_value.all = 0;
+    
     
     DDRA = 0xFF;
     PORTA = 0x00;
@@ -23,25 +10,36 @@ void setup(void)
     i2c_init();
     ssd1306_init();
     ssd1306_send_buffer();
-    //params_default_conf();
-    //enableInterrupts();
-    //adc_init();
+    params_default_conf();
+    adc_init();
 }
-
-
-
  
 int main(void)
 {
-    _delay_ms(2000);
     setup();
-
+    menu_set_paragraph(menu);
     while(1)
     {
-        //uart_write_byte(adc_read());
-        //delay_s(1);
-        //menu_set_paragraph(menu);
-        //menu_set_paragraph(color);
+        switch(check_axis())
+        {
+            case up:
+                menu_up();
+            break;
+            case down:
+                menu_down();
+            break;
+            case left:
+                menu_left();
+            break;
+            case right:
+                menu_right();
+            break;
+            case button:
+                menu_ok_button();
+            break;
+            default:
+            break;
+        }
     };
 }
 
