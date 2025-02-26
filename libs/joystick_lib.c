@@ -2,7 +2,7 @@
 
 void joystick_init(void) {
     // Настройка порта D как вход
-    DDRD = 0x00; // Все пины порта D на вход
+    DDRD = 0b11111011; // Все пины порта D на вход
 
     cli();
 
@@ -16,18 +16,18 @@ void joystick_init(void) {
 
 uint8_t check_axis_x(void)
 {
-	uint8_t x = adc_read(1);
+	uint8_t x = adc_read(0);
 
 	if(x > 136)
-		return up;
+		return left;
 	if(x < 120)
-		return down;
+		return right;
 	return zero;
 }
 
 uint8_t check_axis_y(void)
 {
-	uint8_t y = adc_read(0);
+	uint8_t y = adc_read(1);
 
 	if(y > 136)
 		return up;

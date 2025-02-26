@@ -13,6 +13,7 @@ void i2c_init(void) {
 
 void i2c_start()
 {
+    cli();
     TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN) | (1<<TWIE);
     while (!(TWCR & (1<<TWINT)));
 }
@@ -20,6 +21,7 @@ void i2c_start()
 void i2c_stop()
 {
     TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWSTO);
+    sei();
 }
 
 uint8_t i2c_send_address(uint8_t address, uint8_t rw_type)

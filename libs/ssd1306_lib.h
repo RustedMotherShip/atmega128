@@ -60,5 +60,6 @@ void ssd1306_buffer_write(int x, int y, const uint8_t *data);
 void ssd1306_clean(void);
 void ssd1306_buffer_clean(void);
 void ssd1306_send_buffer(void);
+void ssd1306_display_clean(void);
 
 #endif 

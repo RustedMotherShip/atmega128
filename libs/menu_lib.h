@@ -31,5 +31,6 @@ void menu_switch_paragraph(void);
 void menu_ok(void);
 void menu_up(void);
 void menu_down(void);
-
+void menu_right(uint8_t* value);
+void menu_left(uint8_t* value);
 #endif

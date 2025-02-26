@@ -134,3 +134,25 @@ void ssd1306_clean(void)
     ssd1306_buffer_clean();
     ssd1306_send_buffer();
 }
+
+void ssd1306_display_clean(void)
+{
+    ssd1306_set_params_to_write();
+    for(uint16_t j = 0;j<4;j++)
+    {
+        if(i2c_send_address(I2C_DISPLAY_ADDR, 0))//Проверка на АСК бит
+        {
+            i2c_send_byte(SET_DISPLAY_START_LINE);
+            for(uint16_t i = 0;i < 128;i++)
+            {
+                if(!i2c_send_byte(0x00))//Проверка на АСК бит
+                {
+                    break;//ошибка отправки нет ACK бита -> выход из цикла
+                } 
+            }
+            i2c_stop();
+        }
+        else
+        i2c_stop();
+    }
+}

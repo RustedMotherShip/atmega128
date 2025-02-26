@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <util/twi.h>
 #include <stdint.h>
+#include <avr/interrupt.h>
 
 void i2c_init(void);
 void i2c_start(void);
