@@ -5,6 +5,7 @@
 
 #include "../libs/ssd1306_lib.h"
 #include "../libs/joystick_lib.h"
+#include <util/delay.h>
 
 //static uint8_t *word_menu[] = {&ttf_eng_m[0],&ttf_eng_e[0],&ttf_eng_n[0],&ttf_eng_u[0]};
 
@@ -33,4 +34,7 @@ void menu_up(void);
 void menu_down(void);
 void menu_right(uint8_t* value);
 void menu_left(uint8_t* value);
+void menu_handler(void);
+
+void menu_set_params_state(void);
 #endif

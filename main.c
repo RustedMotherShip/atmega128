@@ -4,7 +4,7 @@ ISR(INT2_vect) {
     cli();
     // Обработка прерывания INT2
     menu_ok();
-    sei();
+    //sei();
 }
 
 void setup(void)
@@ -20,39 +20,16 @@ void setup(void)
     adc_init();
     joystick_init(); 
 }
-void menu_handler()
-{
-        switch(check_axis_y())
-        {
-            case up:
-                menu_up();
-            break;
-            case down:
-                menu_down();
-            break;
-            default:
-            break;
-        };
-        while(check_axis_y() != zero);
-        menu_switch_paragraph();
-}
 
 int main(void)
 {
     setup();
-    menu_set_paragraph(menu);
 
-    menu_set_params_value(255);
-    _delay_ms(1000);
-    menu_set_params_value(67);
-    _delay_ms(1000);
-    menu_set_params_value(9);
-    _delay_ms(1000);
     while(1)
     {
-
+        menu_set_paragraph(menu);
         menu_handler();
-        
+        addr_led_write_parameters();
     }
 }
 

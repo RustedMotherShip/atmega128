@@ -4,7 +4,7 @@
 #include <avr/io.h>
 #include <stdint.h>
 
-uint16_t adc_read(uint8_t channel);
+uint8_t adc_read(uint8_t channel);
 void adc_init(void);
 
 #endif 

@@ -13,7 +13,7 @@
 #define left 3
 #define right 4
 
-uint8_t check_axis_x(void);
+int8_t check_axis_x(void);
 uint8_t check_axis_y(void);
 void joystick_init(void);
 

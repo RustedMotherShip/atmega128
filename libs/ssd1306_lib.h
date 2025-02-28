@@ -57,6 +57,7 @@ void ssd1306_set_params_to_write(void);
 void ssd1306_draw_pixel(uint8_t *buffer,uint8_t x, uint8_t y, uint8_t color);
 void ssd1306_buffer_splash(void);
 void ssd1306_buffer_write(int x, int y, const uint8_t *data);
+void ssd1306_buffer_write_void(int x, int y);
 void ssd1306_clean(void);
 void ssd1306_buffer_clean(void);
 void ssd1306_send_buffer(void);

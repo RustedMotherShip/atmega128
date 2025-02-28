@@ -49,7 +49,7 @@ int set_bit(int data,int bit, int value)
             data |= mask;
         break;
 
-        default:
+        case 0:
             data &= ~mask;
         break;
     }
@@ -129,6 +129,14 @@ void ssd1306_buffer_write(int x, int y, const uint8_t *data)
     }
 }
 
+void ssd1306_buffer_write_void(int x, int y)
+{
+    for (int height = 0; height < 8; height++)
+    {
+        for (int width = 0; width < 8; width++)
+            ssd1306_draw_pixel(main_buffer, x + width, y + height, 0);
+    }
+}
 void ssd1306_clean(void)
 {
     ssd1306_buffer_clean();

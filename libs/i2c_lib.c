@@ -21,7 +21,7 @@ void i2c_start()
 void i2c_stop()
 {
     TWCR = (1 << TWINT) | (1 << TWEN) | (1 << TWSTO);
-    sei();
+    //sei();
 }
 
 uint8_t i2c_send_address(uint8_t address, uint8_t rw_type)

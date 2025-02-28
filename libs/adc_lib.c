@@ -13,7 +13,7 @@ void adc_init(void) {
     ADMUX |= (1 << REFS0);
 }
 
-uint16_t adc_read(uint8_t channel) {
+uint8_t adc_read(uint8_t channel) {
     // Выбираем канал (0-7)
     ADMUX = (ADMUX & 0xF8) | (channel & 0x07);
     

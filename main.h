@@ -11,7 +11,6 @@
 #include "libs/adc_lib.h"
 #include "libs/menu_lib.h"
 #include "libs/joystick_lib.h"
-
-uint8_t irq_joystick_flag = 0;
+#include "libs/addr_led_lib.h"
 
 #endif
