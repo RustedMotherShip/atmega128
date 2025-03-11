@@ -3,30 +3,10 @@
 #include "../ttf/eng.h"
 #include "../ttf/symbols.h"
 
-static uint8_t *numbers[] = {&ttf_num_0[0],&ttf_num_1[0],&ttf_num_2[0],&ttf_num_3[0],&ttf_num_4[0],&ttf_num_5[0],&ttf_num_6[0],&ttf_num_7[0],&ttf_num_8[0],&ttf_num_9[0]};
-	
-struct params_
-{
-	union
-	{
-		uint8_t all;
-		struct {
-			uint8_t current_state;
-			uint8_t current_value;
+#include "../libs/addr_led_lib.h"
 
-			uint8_t current_red;
-			uint8_t current_green;
-			uint8_t current_blue;
-			uint8_t current_first:4;
-			uint8_t current_second:4;
-			uint8_t current_sens;
-			uint8_t current_vers;
-			uint8_t current_menu_pos:2;
-			 
-		};
-	};
-	
-} typedef params_t;
+
+static uint8_t *numbers[] = {&ttf_num_0[0],&ttf_num_1[0],&ttf_num_2[0],&ttf_num_3[0],&ttf_num_4[0],&ttf_num_5[0],&ttf_num_6[0],&ttf_num_7[0],&ttf_num_8[0],&ttf_num_9[0]};
 
 params_t params_value;
 
@@ -95,21 +75,31 @@ void value_handler(uint8_t* value)
 		int8_t result = check_axis_x();
 		if(result != zero)
 		{
-			(*value)+=(result)/10;
+			
+			if(params_value.current_state == first || params_value.current_state == second)
+			{
+				(*value)+=(result)/40;
+				(*value)&=0x0F;
+			}
+			else
+			{
+				(*value)+=(result)/10;
+			}
 			menu_set_params_value(*value);
 		}
 	}
-} 
+}
+
 void params_default_conf(void)
 {
 	params_value.all = 0;
 
-    params_value.current_red = 253;
-    params_value.current_green = 254;
-    params_value.current_blue = 255;
+    params_value.current_red = 255;
+    params_value.current_green = 0;
+    params_value.current_blue = 0;
 
     params_value.current_first = 0;
-    params_value.current_second = 15;
+    params_value.current_second = 1;
 
     params_value.current_sens = 10;
     params_value.current_vers = 0xA1;
@@ -338,6 +328,8 @@ void menu_set_item_menu(uint8_t item)
 
 void menu_set_paragraph(uint8_t paragraph)
 {
+	addr_led_write_parameters(&params_value);
+
 	ssd1306_buffer_clean();
 	menu_border();
 	switch(paragraph)
@@ -417,7 +409,7 @@ void menu_set_paragraph(uint8_t paragraph)
 			cli();
 			params_value.current_state = second;
 	    	menu_set_item_menu(second);
-			//value_handler(&params_value.current_second);
+			value_handler(&params_value.current_second);
 			cli();
 	    	params_value.current_state = 0;
 

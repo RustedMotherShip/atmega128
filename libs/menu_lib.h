@@ -5,6 +5,7 @@
 
 #include "../libs/ssd1306_lib.h"
 #include "../libs/joystick_lib.h"
+
 #include <util/delay.h>
 
 //static uint8_t *word_menu[] = {&ttf_eng_m[0],&ttf_eng_e[0],&ttf_eng_n[0],&ttf_eng_u[0]};
@@ -23,6 +24,29 @@
 
 #define sens 6
 #define vers 7
+
+struct params_
+{
+	union
+	{
+		uint8_t all;
+		struct {
+			uint8_t current_state;
+			uint8_t current_value;
+
+			uint8_t current_red;
+			uint8_t current_green;
+			uint8_t current_blue;
+			uint8_t current_first;
+			uint8_t current_second;
+			uint8_t current_sens;
+			uint8_t current_vers;
+			uint8_t current_menu_pos:2;
+			 
+		};
+	};
+	
+}; typedef struct params_ params_t;
 
 void menu_set_item_menu(uint8_t item);
 void menu_set_paragraph(uint8_t paragraph);

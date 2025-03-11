@@ -10,8 +10,8 @@ ISR(INT2_vect) {
 void setup(void)
 {
     uart_init(9600);
-    DDRA=0xFF;
     PORTA=0x00;
+    DDRA=0xFF;
     PORTD=0x00;
     i2c_init();
     ssd1306_init();
@@ -29,7 +29,6 @@ int main(void)
     {
         menu_set_paragraph(menu);
         menu_handler();
-        addr_led_write_parameters();
     }
 }
 
