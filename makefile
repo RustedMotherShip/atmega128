@@ -10,7 +10,7 @@ SRCS = $(wildcard *.c) $(wildcard libs/*.c)
 OBJS = $(SRCS:.c=.o)
 
 PROGRAMMER = stk500v2
-PORT = /dev/ttyUSB0
+PORT = /dev/ttyUSB1
 BAUD = 115200
 
 all: firmware.hex

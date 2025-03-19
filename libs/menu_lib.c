@@ -76,18 +76,23 @@ void value_handler(uint8_t* value)
 		if(result != zero)
 		{
 			
-			if(params_value.current_state == first || params_value.current_state == second)
-			{
-				(*value)+=(result)/40;
+			// if(params_value.current_state == first || params_value.current_state == second)
+			// {
+				if(result)
+					(*value)++;
+				else
+					(*value)--;
 				(*value)&=0x0F;
-			}
-			else
-			{
+				while(check_axis_x() != zero);
+			// }
+			// else
+			// {
 				(*value)+=(result)/10;
-			}
+			//}
 			menu_set_params_value(*value);
 		}
 	}
+	//cli();
 }
 
 void params_default_conf(void)
@@ -99,13 +104,14 @@ void params_default_conf(void)
     params_value.current_blue = 0;
 
     params_value.current_first = 0;
-    params_value.current_second = 1;
+    params_value.current_second = 10;
 
     params_value.current_sens = 10;
     params_value.current_vers = 0xA1;
 
     params_value.current_menu_pos = 0;
     params_value.current_state = 0;
+    addr_led_write_parameters(&params_value);
 }
 
 void menu_border(void)
@@ -188,6 +194,7 @@ void menu_set_params_value(uint8_t number)
 }
 void menu_switch_paragraph(void)
 {
+	//addr_led_write_parameters(&params_value);
 	
 	ssd1306_buffer_clean();
 	menu_border();
@@ -328,8 +335,6 @@ void menu_set_item_menu(uint8_t item)
 
 void menu_set_paragraph(uint8_t paragraph)
 {
-	addr_led_write_parameters(&params_value);
-
 	ssd1306_buffer_clean();
 	menu_border();
 	switch(paragraph)
@@ -388,30 +393,30 @@ void menu_set_paragraph(uint8_t paragraph)
 			params_value.current_state = blue;
 	    	menu_set_item_menu(blue);
 			value_handler(&params_value.current_blue);
-			cli();
+	    	cli();
 	    	params_value.current_state = 0;
 
 		break;
 		case segment:
-			cli();
-			menu_border_paragraph(segment);
-			ssd1306_buffer_write(10,12,ttf_rus_6);
-	    	ssd1306_buffer_write(18,12,ttf_rus_3);
-	    	ssd1306_buffer_write(26,12,ttf_rus_7);
-	    	ssd1306_buffer_write(34,12,ttf_rus_8);
-	    	ssd1306_buffer_write(42,12,ttf_rus_3);
-	    	ssd1306_buffer_write(50,12,ttf_rus_9);
-	    	ssd1306_buffer_write(58,12,ttf_rus_4);
+			// cli();
+			// menu_border_paragraph(segment);
+			// ssd1306_buffer_write(10,12,ttf_rus_6);
+	    	// ssd1306_buffer_write(18,12,ttf_rus_3);
+	    	// ssd1306_buffer_write(26,12,ttf_rus_7);
+	    	// ssd1306_buffer_write(34,12,ttf_rus_8);
+	    	// ssd1306_buffer_write(42,12,ttf_rus_3);
+	    	// ssd1306_buffer_write(50,12,ttf_rus_9);
+	    	// ssd1306_buffer_write(58,12,ttf_rus_4);
 
-			params_value.current_state = first;
-	    	menu_set_item_menu(first);
-			value_handler(&params_value.current_first);
-			cli();
-			params_value.current_state = second;
-	    	menu_set_item_menu(second);
-			value_handler(&params_value.current_second);
-			cli();
-	    	params_value.current_state = 0;
+			// params_value.current_state = first;
+	    	// menu_set_item_menu(first);
+			// value_handler(&params_value.current_first);
+			//	cli();
+			//params_value.current_state = second;
+	    	// menu_set_item_menu(second);
+			// value_handler(&params_value.current_second);
+	    	//	cli();
+	    	//params_value.current_state = 0;
 
 		break;
 		case settings:
@@ -430,8 +435,9 @@ void menu_set_paragraph(uint8_t paragraph)
 			params_value.current_state = vers;
 	    	menu_set_item_menu(vers);
 			value_handler(&params_value.current_vers);
-			cli();
+	    	cli();
 	    	params_value.current_state = 0;
+
 		break;
 	}
 }
